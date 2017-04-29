@@ -1,4 +1,4 @@
-app.controller('experimrntCtrl', function($scope) {
+app.controller('experimrntCtrl', function($scope, $location) {
     $scope.click = [];
     $scope.firstPlayer = false;
     $scope.mouseLocation = function(myE) {
@@ -9,5 +9,6 @@ app.controller('experimrntCtrl', function($scope) {
         var loc = {x:i, y:j, firstPlayer:$scope.firstPlayer};
         $scope.click.push(loc)
         $scope.firstPlayer = !$scope.firstPlayer
+        console.log($location)
     }
 });
