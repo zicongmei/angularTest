@@ -6,7 +6,11 @@ app.controller('experimrntCtrl', function($scope, $location) {
         $scope.y = myE.clientY;
     }
     $scope.mouseClick = function(i, j) {
-        var loc = {x:i, y:j, firstPlayer:$scope.firstPlayer};
+        var loc = {
+            x: i,
+            y: j,
+            firstPlayer: $scope.firstPlayer
+        };
         $scope.click.push(loc)
         $scope.firstPlayer = !$scope.firstPlayer
         console.log($location)

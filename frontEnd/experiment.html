@@ -9,15 +9,12 @@
     <script src="experimrntCtrl.js"></script>
 </head>
 <body>
-
 <div class="w3-container w3-teal">
     <h1>My Header</h1>
 </div>
-
 <div ng-app="experiment" ng-controller="experimrntCtrl">
     <div class="w3-panel">
         <img src="images/board.png" width="300" height="300" usemap="#planetmap">
-
         <map name="planetmap">
             <area shape="rect" coords="0  ,0  ,100,100" ng-click="mouseClick(0, 0)">
             <area shape="rect" coords="100,0  ,200,100" ng-click="mouseClick(1, 0)">
@@ -31,12 +28,9 @@
         </map>
     </div>
     <p>Coordinates: {{x + ', ' + y}}</p>
-
     <li ng-repeat="cli in click">
         {{ cli }}
     </li>
-
 </div>
-
 </body>
 </html>
