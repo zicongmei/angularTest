@@ -6,20 +6,19 @@ app.controller('experimrntCtrl', function($scope, $location, $http) {
         $scope.y = myE.clientY;
     }
     $scope.mouseClick = function(row, col) {
-        var loc = {
-            x: row,
-            y: col,
-            firstPlayer: $scope.firstPlayer
-        };
-        $scope.click.push(loc)
-        $scope.firstPlayer = !$scope.firstPlayer
         $http({
             method: "PUT",
             url: "request/move?row=" + row + "&col=" + col
         }).then(function mySucces(response) {
-            $scope.myWelcome = response.data;
+            var loc = {
+                x: row,
+                y: col,
+                firstPlayer: $scope.firstPlayer
+            };
+            $scope.click.push(loc)
+            $scope.firstPlayer = !$scope.firstPlayer
         }, function myError(response) {
-            $scope.myWelcome = response.statusText;
+            colsole.log("Failed to PUT $http.$$url")
         });
     }
 });

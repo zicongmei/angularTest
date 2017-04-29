@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="login.js"></script>
+    <script src="loginCtrl.js"></script>
+</head>
+<body>
+<div class="w3-container w3-blue">
+    <h2>Temp login</h2>
+</div>
+<div class="w3-container" ng-app="login" ng-controller="loginCtrl" >
+    <form class="w3-container" name="loginForm">
+        <p>
+            <label>guest login name</label>
+            <input name='loginName' class="w3-input" type="text" ng-model="loginName" required>
+        </p>
+    </form>
+    <p ng-show="loginForm.loginName.$invalid">The name is required.</p>
+    <p ng-show="loginForm.loginName.$valid">The name is {{loginName}}.</p>
+    <div class="w3-container">
+        <button class="w3-button w3-blue" ng-click="loginForm.loginName.$valid && guestLogin(loginName)">Submit</button>
+    </div>
+</div>
+</body>
+</html>
