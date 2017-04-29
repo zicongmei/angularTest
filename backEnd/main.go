@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/zicongmei/angularTest/backEnd/loadConfig"
-	"net/http"
+	"github.com/zicongmei/angularTest/backEnd/server"
 )
 
 const (
@@ -10,9 +10,10 @@ const (
 )
 
 func main() {
-	if err := loadConfig.Load(configFile); err != nil {
+	if config, err := loadConfig.Load(configFile); err != nil {
 		panic(err)
+	} else {
+		server.Start(config)
 	}
-	http.Handle("/", http.FileServer(http.Dir("frontEnd")))
-	http.ListenAndServe(":80", nil)
+
 }

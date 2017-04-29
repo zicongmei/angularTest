@@ -6,23 +6,22 @@ import (
 )
 
 type ServerStruct struct {
-	Port        string `json:"port"`
-	FronendPath string `json:"frontEnd"`
+	Port         string `json:"port"`
+	FrontendPath string `json:"frontEnd"`
 }
 
 type ConfigStruct struct {
 	Server ServerStruct `json:"server"`
 }
 
-var Congigs ConfigStruct
-
-func Load(file string) error {
+func Load(file string) (ConfigStruct, error) {
+	var configs ConfigStruct
 	bData, err := ioutil.ReadFile(file)
 	if err != nil {
-		return err
+		return configs, err
 	}
-	if err := json.Unmarshal(bData, &Congigs); err != nil {
-		return err
+	if err := json.Unmarshal(bData, &configs); err != nil {
+		return configs, err
 	}
-	return nil
+	return configs, err
 }
