@@ -6,8 +6,8 @@ import (
 )
 
 type ServerStruct struct {
-	Port         string `json:"port"`
-	FrontendPath string `json:"frontEnd"`
+	HttpPort     string `json:"httpPort"`
+	FrontendPath string `json:"frontEndPath"`
 }
 
 type ConfigStruct struct {

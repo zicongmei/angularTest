@@ -15,5 +15,4 @@ func main() {
 	} else {
 		server.Start(config)
 	}
-
 }
