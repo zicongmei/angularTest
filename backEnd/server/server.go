@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"github.com/zicongmei/angularTest/backEnd/loadConfig"
 	"net/http"
-	"path/filepath"
 )
 
 func requestHandler(w http.ResponseWriter, r *http.Request) {
@@ -32,12 +31,7 @@ func redirectToHttps(w http.ResponseWriter, r *http.Request) {
 
 func Start() {
 	var Configs *loadConfig.ConfigStruct = &loadConfig.GlobalConfig
-	frontendPAth, err := filepath.Abs(Configs.Server.FrontendPath)
-	if err != nil {
-		panic(err)
-	}
-	frontendPAth += "/"
-	http.Handle("/", http.FileServer(http.Dir(frontendPAth)))
+	http.Handle("/", http.FileServer(http.Dir(Configs.Server.FrontendPath)))
 	http.HandleFunc("/request/", requestHandler)
 	http.HandleFunc("/authenticate/", authenticateHandler)
 	go http.ListenAndServeTLS(":"+Configs.Server.HttpsPort,
