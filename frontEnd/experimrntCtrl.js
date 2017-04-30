@@ -13,7 +13,7 @@ app.controller('experimrntCtrl', function($scope, $location, $http) {
                 'Authorization': window.sessionStorage.token,
                 'Accept': 'application/json',
             }
-        }).then(function mySucces(response) {
+        }).then(function mySuccess(response) {
             var loc = {
                 x: row,
                 y: col,
@@ -22,7 +22,7 @@ app.controller('experimrntCtrl', function($scope, $location, $http) {
             $scope.click.push(loc)
             $scope.firstPlayer = !$scope.firstPlayer
         }, function myError(response) {
-            colsole.log("Failed to PUT $http.$$url")
+            console.log("Failed to PUT $http.$$url")
         });
     }
 });

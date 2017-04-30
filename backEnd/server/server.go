@@ -2,10 +2,18 @@ package server
 
 import (
 	"encoding/json"
+	"github.com/zicongmei/angularTest/backEnd/authentication/backEndToken"
 	"github.com/zicongmei/angularTest/backEnd/loadConfig"
 	"net/http"
-	"github.com/zicongmei/angularTest/backEnd/authentication/backEndToken"
 )
+
+func requestAuthenticationHandler(w http.ResponseWriter, r *http.Request) {
+	if _, err := backEndToken.CheckToken(r); err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+	} else {
+		requestHandler(w, r)
+	}
+}
 
 func requestHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
@@ -27,7 +35,6 @@ func authenticateHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(token))
 	}
-
 }
 
 func redirectToHttps(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +45,7 @@ func redirectToHttps(w http.ResponseWriter, r *http.Request) {
 func Start() {
 	var Configs *loadConfig.ConfigStruct = &loadConfig.GlobalConfig
 	http.Handle("/", http.FileServer(http.Dir(Configs.Server.FrontendPath)))
-	http.HandleFunc("/request/", requestHandler)
+	http.HandleFunc("/request/", requestAuthenticationHandler)
 	http.HandleFunc("/authenticate/", authenticateHandler)
 	go http.ListenAndServeTLS(":"+Configs.Server.HttpsPort,
 		Configs.Server.HttpsCert, Configs.Server.HttpsKey, nil)

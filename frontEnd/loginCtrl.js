@@ -11,6 +11,7 @@ app.controller('loginCtrl', function($scope, $http) {
             },
         }).then(function mySucces(response) {
             window.sessionStorage.token = response.data
+            window.location.href = '/experiment.html';
         }, function myError(response) {
             console.log("Failed to login $http.$$url")
         });
