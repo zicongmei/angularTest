@@ -8,7 +8,11 @@ app.controller('experimrntCtrl', function($scope, $location, $http) {
     $scope.mouseClick = function(row, col) {
         $http({
             method: "PUT",
-            url: "request/move?row=" + row + "&col=" + col
+            url: "request/move?row=" + row + "&col=" + col,
+            headers: {
+                'Authorization': window.sessionStorage.token,
+                'Accept': 'application/json',
+            }
         }).then(function mySucces(response) {
             var loc = {
                 x: row,
