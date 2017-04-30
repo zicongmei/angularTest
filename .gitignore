@@ -1,4 +1,4 @@
 /.idea/
 angularTest.iml
-/backEnd/certificates/
-backEnd/certificates/
+/backEnd/certificates/cert.pem
+/backEnd/certificates/key.pem
