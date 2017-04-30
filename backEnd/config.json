@@ -1,6 +1,9 @@
 {
   "server":{
     "httpPort": "80",
+    "httpsPort": "443",
+    "httpsCert": "backEnd/certificates/cert.pem",
+    "httpsKey": "backEnd/certificates/key.pem",
     "frontEndPath": "frontEnd"
   }
 }

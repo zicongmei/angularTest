@@ -25,7 +25,13 @@ func authenticateHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("tried to login with " + ur.User))
 }
 
-func Start(Configs loadConfig.ConfigStruct) {
+func redirectToHttps(w http.ResponseWriter, r *http.Request) {
+	var Configs *loadConfig.ConfigStruct = &loadConfig.GlobalConfig
+	http.Redirect(w, r, "https://127.0.0.1:"+Configs.Server.HttpsPort+r.RequestURI, http.StatusMovedPermanently)
+}
+
+func Start() {
+	var Configs *loadConfig.ConfigStruct = &loadConfig.GlobalConfig
 	frontendPAth, err := filepath.Abs(Configs.Server.FrontendPath)
 	if err != nil {
 		panic(err)
@@ -34,5 +40,9 @@ func Start(Configs loadConfig.ConfigStruct) {
 	http.Handle("/", http.FileServer(http.Dir(frontendPAth)))
 	http.HandleFunc("/request/", requestHandler)
 	http.HandleFunc("/authenticate/", authenticateHandler)
-	http.ListenAndServe(":"+Configs.Server.HttpPort, nil)
+	go http.ListenAndServeTLS(":"+Configs.Server.HttpsPort,
+		Configs.Server.HttpsCert, Configs.Server.HttpsKey, nil)
+
+	http.ListenAndServe(":"+Configs.Server.HttpPort,
+		http.HandlerFunc(redirectToHttps))
 }

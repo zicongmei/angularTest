@@ -10,9 +10,9 @@ const (
 )
 
 func main() {
-	if config, err := loadConfig.Load(configFile); err != nil {
+	if err := loadConfig.Load(configFile); err != nil {
 		panic(err)
 	} else {
-		server.Start(config)
+		server.Start()
 	}
 }
