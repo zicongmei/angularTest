@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/zicongmei/angularTest/backEnd/loadConfig"
 	"net/http"
+	"github.com/zicongmei/angularTest/backEnd/authentication/backEndToken"
 )
 
 func requestHandler(w http.ResponseWriter, r *http.Request) {
@@ -20,8 +21,14 @@ func authenticateHandler(w http.ResponseWriter, r *http.Request) {
 	var ur UserRequest
 	decoder := json.NewDecoder(r.Body)
 	decoder.Decode(&ur)
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("tried to login with " + ur.User))
+	if token, err := backEndToken.BuildToken(ur.User); err != nil {
+		w.WriteHeader(http.StatusNotAcceptable)
+	} else {
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("token", token)
+		w.Write([]byte("Successful to login with " + ur.User))
+	}
+
 }
 
 func redirectToHttps(w http.ResponseWriter, r *http.Request) {
