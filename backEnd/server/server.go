@@ -25,8 +25,7 @@ func authenticateHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotAcceptable)
 	} else {
 		w.WriteHeader(http.StatusOK)
-		w.Header().Set("token", token)
-		w.Write([]byte("Successful to login with " + ur.User))
+		w.Write([]byte(token))
 	}
 
 }

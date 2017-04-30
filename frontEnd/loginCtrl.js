@@ -10,7 +10,7 @@ app.controller('loginCtrl', function($scope, $http) {
                 "user": name
             },
         }).then(function mySucces(response) {
-            console.log(response)
+            window.sessionStorage.token = response.data
         }, function myError(response) {
             console.log("Failed to login $http.$$url")
         });
