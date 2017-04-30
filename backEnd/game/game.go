@@ -17,20 +17,21 @@ const(
 	GAMEERROR
 )
 
-type gameInfo struct {
+type GameInfo struct {
 	board [BoardSize][BoardSize]int
 	status int
 	whiteNext bool
 }
 
-func newGame() *gameInfo {
-	var initGame gameInfo
+func NewGame() *GameInfo {
+	var initGame GameInfo
 	initGame.status = ONGOING
+	initGame.whiteNext = true
 	return &initGame
 }
 
 // return if there is winner
-func (g *gameInfo) move(color, row, col int) (int, error) {
+func (g *GameInfo) Move(color, row, col int) (int, error) {
 	if err := g.checkError(color, row, col); err != nil {
 		return GAMEERROR, err
 	}
@@ -43,7 +44,10 @@ func (g *gameInfo) move(color, row, col int) (int, error) {
 	}
 }
 
-func (g *gameInfo) checkError(color, row, col int) (error){
+func (g *GameInfo) checkError(color, row, col int) (error){
+	if g.status != ONGOING {
+		return errors.New("game finished")
+	}
 	if color == WHITE && !g.whiteNext{
 		return errors.New("Next is black")
 	}
@@ -64,19 +68,21 @@ func (g *gameInfo) checkError(color, row, col int) (error){
 
 // return if finished
 // return winner and if finished
-func (g *gameInfo) checkFinished() (int, bool) {
+func (g *GameInfo) checkFinished() (int, bool) {
 	if winner, wins := g.checkWin(); wins {
-		return winner + WIN_WHITE - WHITE, wins
+		g.status = winner + WIN_WHITE - WHITE
+		return g.status, wins
 	}
 	if g.checkEmpty() {
-		return EMPTY, false
+		return ONGOING, false
 	} else {
+		g.status = DRAW
 		return DRAW, true
 	}
 }
 
 // check if there is empty space
-func (g *gameInfo) checkEmpty() bool{
+func (g *GameInfo) checkEmpty() bool{
 	for i := 0; i < BoardSize; i++ {
 		for j := 0; j < BoardSize; j++{
 			if g.board[i][j] == EMPTY {
@@ -89,7 +95,7 @@ func (g *gameInfo) checkEmpty() bool{
 
 // check if anyone wins
 // return winner and if anyone wins
-func (g *gameInfo) checkWin() (int, bool) {
+func (g *GameInfo) checkWin() (int, bool) {
 	var target [BoardSize]int
 	for i := 0; i < BoardSize; i++ {
 		for j := 0; j < BoardSize; j++{
